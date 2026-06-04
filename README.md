@@ -21,7 +21,7 @@ This is particularly relevant for LLM training: German models need ~2× the voca
   - Downloads German corpus from Project Gutenberg (Kafka, Goethe, Schiller)
   - Trains tokenizer with configurable vocab sizes (2k–32k)
   - Compares fertility across German compounds vs English equivalents
-  - Generates graphs for LinkedIn post analysis
+  - Generates graphs 
 
 ## Setup
 
