@@ -1,6 +1,11 @@
-# tinyLLM — BPE Tokenizer for German
+# tinyLLM — Building a Tiny Transformer from Scratch
 
-A lightweight implementation of Byte Pair Encoding (BPE) tokenization focused on understanding how language structure affects token efficiency. This project trains and analyzes a German tokenizer to compare vocabulary fertility between German and English.
+A series of educational implementations demonstrating how to build a transformer model from first principles. We start with tokenization (Part 1) and move to multi-head attention (Part 2), building toward a full language model.
+
+## Overview
+
+- **Part 1: BPE Tokenizer** — Byte Pair Encoding implementation for German text
+- **Part 2: Multi-Head Attention** — Scaled dot-product attention, multi-head mechanism, and positional encoding
 
 ## Project Goal
 
@@ -13,6 +18,8 @@ This is particularly relevant for LLM training: German models need ~2× the voca
 
 ## Files
 
+### Part 1: Tokenization
+
 - **`bpe_tokenizer.py`** — Core BPE tokenizer implementation
   - `BPETokeniser` class: train, encode/decode, calculate fertility metrics
   - Supports custom vocabulary sizes and compound word analysis
@@ -21,7 +28,28 @@ This is particularly relevant for LLM training: German models need ~2× the voca
   - Uses German corpus from Project Gutenberg (Kafka, Goethe, Schiller)
   - Trains tokenizer with configurable vocab sizes (2k–32k)
   - Compares fertility across German compounds vs English equivalents
-  - Generates graphs for analysis
+
+### Part 2: Multi-Head Attention
+
+- **`multi_head_attention.py`** — Core MHA implementation (~80 lines)
+  - `PositionalEncoding`: Sine/cosine positional encoding
+  - `ScaledDotProductAttention`: Core attention mechanism
+  - `MultiHeadAttention`: Full multi-head attention module
+  
+- **`MHA_GUIDE.md`** — Complete conceptual guide
+  - Explains Q/K/V (Query, Key, Value)
+  - Scaled dot-product attention math
+  - Why multiple heads work better
+  - Positional encoding visualization
+  - Parameter explanations and usage examples
+
+- **`mha_examples.py`** — Advanced examples and patterns
+  - Self-attention (encoder-style)
+  - Cross-attention (encoder-decoder)
+  - Causal attention (decoder-only, "can't look at future")
+  - Transformer block with FFN and residual connections
+  - Simple language model for next-token prediction
+  - Attention head analysis and visualization
 
 ## Setup
 
@@ -134,9 +162,24 @@ Training corpus sourced from [Project Gutenberg](https://www.gutenberg.org/) (pu
 
 No API keys, authentication, or paid resources required.
 
+## Quick Start for Part 2
+
+```bash
+# Run the multi-head attention demo
+python multi_head_attention.py
+
+# See 6 advanced examples (self-attention, cross-attention, causal, etc.)
+python mha_examples.py
+
+# Read the complete guide
+cat MHA_GUIDE.md
+```
+
 ## Next Steps
 
-Part 2 will implement multi-head attention with this tokenizer to build a tiny transformer for German text generation.
+- Part 3: Combine tokenizer + MHA to build a full Transformer encoder
+- Part 4: Train on next-token prediction for German text generation
+- Part 5: Add GPT-style decoding and sampling strategies
 
 ## License
 
