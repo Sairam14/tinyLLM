@@ -18,7 +18,7 @@ This is particularly relevant for LLM training: German models need ~2× the voca
   - Supports custom vocabulary sizes and compound word analysis
   
 - **`train_tokenizer.py`** — Training script and experiments
-  - Downloads German corpus from Project Gutenberg (Kafka, Goethe, Schiller)
+  - Uses German corpus from Project Gutenberg (Kafka, Goethe, Schiller)
   - Trains tokenizer with configurable vocab sizes (2k–32k)
   - Compares fertility across German compounds vs English equivalents
   - Generates graphs for analysis
@@ -92,7 +92,7 @@ python train_tokenizer.py
 ```
 
 This will:
-1. Download ~5MB of German public domain text
+1. Use the ~5MB of German public domain text
 2. Train a BPE tokenizer (vocab_size=8000)
 3. Show sanity checks and decoded output
 4. Run fertility comparison on compound words
