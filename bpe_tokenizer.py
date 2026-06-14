@@ -40,7 +40,7 @@ def normalise_german(text: str) -> str:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Step 2: Pre-tokenisation
-# Split text into words before BPE. This is a key design decision.
+# Split text into words before BPE. 
 # We use a pattern that respects German compound word boundaries.
 # ─────────────────────────────────────────────────────────────────────────────
 

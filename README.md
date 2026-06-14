@@ -21,7 +21,7 @@ This is particularly relevant for LLM training: German models need ~2× the voca
   - Downloads German corpus from Project Gutenberg (Kafka, Goethe, Schiller)
   - Trains tokenizer with configurable vocab sizes (2k–32k)
   - Compares fertility across German compounds vs English equivalents
-  - Generates graphs for LinkedIn post analysis
+  - Generates graphs for analysis
 
 ## Setup
 
@@ -47,7 +47,45 @@ No external dependencies required—the tokenizer uses only Python standard libr
 
 ## Usage
 
-### Train and Analyze
+### Quick Demo
+
+Run the included demo script to see the tokenizer in action:
+
+```bash
+python demo.py
+```
+
+This trains a tokenizer on sample German text and demonstrates:
+- BPE training and merge process
+- Encoding and decoding
+- Fertility calculation (tokens per word)
+- Compound word analysis
+
+#### Demo Results
+
+```
+Training BPE tokeniser | target vocab size: 500
+Base character vocabulary: 40 characters
+Merges to perform: 456
+No more pairs to merge after 169 merges.
+
+Training complete. Final vocabulary size: 213
+
+Encoding: Das ist ein Test.
+Token IDs: [2, 58, 48, 59, 87, 6, 3]
+Number of tokens: 7
+Decoded: das ist ein test .
+
+Fertility: 2.50 tokens/word
+
+Word: Donaudampfschifffahrtsgesellschaftskapitän
+Tokens (31): ['D', 'o', 'na', 'u', 'da', 'm', 'p', 'f', 'sch', 'i', 'ff', 'f', 'a', 'h', 'r', 'ts', 'ge', 's', 'e', 'l', 'l', 'sch', 'a', 'f', 'ts', 'k', 'a', 'p', 'i', 'tä', 'n</w>']
+  IDs: [1, 26, 76, 34, 55, 23, 27, 15, 51, 20, 77, 15, 8, 18, 28, 78, 57, 30, 13, 22, 22, 51, 8, 15, 78, 21, 8, 27, 20, 79, 25]
+```
+
+### Full Training
+
+For full training on a larger corpus:
 
 ```bash
 python train_tokenizer.py
@@ -60,17 +98,6 @@ This will:
 4. Run fertility comparison on compound words
 5. Benchmark different vocab sizes (2k, 4k, 8k, 16k, 32k)
 6. Save the trained tokenizer as `german_bpe_8k.json`
-
-### Example Output
-
-```
-FERTILITY ANALYSIS — German compounds vs English equivalents
-Donaudampfschifffahrtsgesellschaft       14 tokens      3 words
-→ [47, 122, 85, 201, 5, ...]
-
-Total                                    42 tokens     39 words
-German is 1.08× more token-dense than English equivalents
-```
 
 ## Key Findings
 
