@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tinyllm-api
+    ports:
+      - "8000:8000"
+    environment:
+      CUDA_VISIBLE_DEVICES: "0"
+      API_KEYS: "test-key-1,test-key-2"
+      MODEL_CHECKPOINT: "/app/checkpoints/step_0000000_final.pt"
+      TOKENIZER_PATH: "/app/tokenizer_32k.json"
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./tokenizer_32k.json:/app/tokenizer_32k.json:ro
+    depends_on:
+      - prometheus
+    networks:
+      - tinyllm-network
+    command: python3 -m uvicorn tinyllm.serving.app:app --host 0.0.0.0 --port 8000 --reload
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: tinyllm-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    networks:
+      - tinyllm-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tinyllm-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: "grafana-piechart-panel"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - tinyllm-network
+
+networks:
+  tinyllm-network:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
