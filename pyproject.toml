@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tinyllm"
+version = "0.1.0"
+description = "Production-grade tiny German LLM: tokenization, training, inference, serving, edge deployment"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Sairam Sundaram", email = "sairam.sundaram@gmail.com"}
+]
+license = {text = "MIT"}
+
+dependencies = [
+    "torch>=2.1.0",
+    "tokenizers>=0.19.0",
+    "datasets>=2.19.0",
+    "transformers>=4.40.0",
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.27.0",
+    "onnx>=1.16.0",
+    "onnxruntime>=1.18.0",
+    "prometheus-client>=0.21.0",
+    "wandb>=0.16.0",
+    "slowapi>=0.1.9",
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "types-requests",
+    "black>=24.1.0",
+]
+
+[project.urls]
+Repository = "https://github.com/yourusername/tinyLLM"
+Issues = "https://github.com/yourusername/tinyLLM/issues"
+
+[tool.setuptools]
+packages = ["tinyllm"]
+
+[tool.setuptools.package-data]
+tinyllm = ["serving/templates/**"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "gpu: tests that require GPU",
+    "slow: tests that take >5 seconds",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = [".git", ".venv", "__pycache__", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]  # line too long (handled by formatter)
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+exclude = ".venv"
