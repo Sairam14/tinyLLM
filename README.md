@@ -18,6 +18,14 @@ This is particularly relevant for LLM training: German models need ~2× the voca
 
 ## Files
 
+### 🎯 Entry Points
+
+- **`main.py`** — **START HERE** — Complete pipeline (Part 1 + Part 2)
+  - Tokenize German text with BPE
+  - Create transformer model
+  - Forward pass & text generation
+  - Shows how everything connects
+
 ### Part 1: Tokenization
 
 - **`bpe_tokenizer.py`** — Core BPE tokenizer implementation
@@ -75,9 +83,26 @@ No external dependencies required—the tokenizer uses only Python standard libr
 
 ## Usage
 
-### Quick Demo
+### 🎯 Start Here: Complete Pipeline
 
-Run the included demo script to see the tokenizer in action:
+Run the main script to see the **entire system** in action (tokenization + multi-head attention):
+
+```bash
+python main.py
+```
+
+This demonstrates:
+- Part 1: BPE tokenizer training on German text
+- Part 2: Multi-head attention model creation
+- Forward pass through the transformer
+- Text generation with next-token prediction
+- How all pieces connect together
+
+See [PIPELINE.md](PIPELINE.md) for detailed architecture explanation.
+
+### Quick Demo (Part 1 Only)
+
+If you want to see just the tokenizer:
 
 ```bash
 python demo.py
@@ -162,17 +187,23 @@ Training corpus sourced from [Project Gutenberg](https://www.gutenberg.org/) (pu
 
 No API keys, authentication, or paid resources required.
 
-## Quick Start for Part 2
+## Learning Path
 
+### Option 1: Complete System (Recommended)
 ```bash
-# Run the multi-head attention demo
+python main.py        # See everything connected
+cat PIPELINE.md       # Understand the architecture
+```
+
+### Option 2: Part by Part
+```bash
+# Part 1: Tokenization
+python demo.py
+python train_tokenizer.py
+
+# Part 2: Multi-Head Attention
 python multi_head_attention.py
-
-# See 6 advanced examples (self-attention, cross-attention, causal, etc.)
-python mha_examples.py
-
-# Read the complete guide
-cat MHA_GUIDE.md
+python mha_examples.py    # 6 detailed attention examples
 ```
 
 ## Next Steps
