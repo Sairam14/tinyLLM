@@ -66,6 +66,8 @@ This will show you the complete pipeline in ~2 seconds:
 
 - **Part 1: BPE Tokenizer** — Byte Pair Encoding implementation for German text
 - **Part 2: Multi-Head Attention** — Scaled dot-product attention, multi-head mechanism, and positional encoding
+- **Part 3: Transformer Block** — Complete transformer block with Pre-LayerNorm, residual connections, and FFN
+- **Part 4: Training & Benchmarking** — Train on real Kafka/Goethe/Schiller corpus and benchmark tokenizers
 
 ## Project Goal
 
@@ -118,6 +120,29 @@ This is particularly relevant for LLM training: German models need ~2× the voca
   - Transformer block with FFN and residual connections
   - Simple language model for next-token prediction
   - Attention head analysis and visualization
+
+### Part 3: Transformer Block
+
+- **`transformer_block.py`** — Complete transformer block assembly (~250 lines)
+  - `FeedForwardNetwork`: Position-wise MLP (d_model → d_ff → d_model)
+  - `TransformerBlock`: Pre-LayerNorm with attention, residual connections, and FFN
+  - `SimpleTransformer`: Stacking multiple blocks into a complete LLM
+  - Causal masking for autoregressive generation
+  - Three working demos with shape annotations
+
+### Part 4: Training & Benchmarking
+
+- **`train_transformer.py`** — Complete training pipeline (~400 lines)
+  - Loads real Kafka/Goethe/Schiller corpus from Project Gutenberg
+  - Trains SimpleTransformer from Part 3 with next-token prediction
+  - Reports loss curves and final perplexity
+  - Benchmarks BPE vs Unigram vs morphology-aware pre-segmentation
+  - Shows connection between tokenization quality and model convergence
+
+- **`scripts/comparision.py`** — Tokenizer benchmark (standalone)
+  - Real corpus comparison on 2M+ characters
+  - BPE (Part 1), Unigram (SentencePiece), and morphology-aware segmentation
+  - Compound word token counts and fertility metrics
 
 ## Setup
 
@@ -425,9 +450,8 @@ n_heads = 2   # Instead of 4
 6. 🔧 Modify hyperparameters and its outcome
 7. 📚 Extend it: better sampling, larger model, more layers
 
-- Part 3: Combine tokenizer + MHA to build a full Transformer encoder
-- Part 4: Train on next-token prediction for German text generation
-- Part 5: Add GPT-style decoding and sampling strategies
+✅ **All Parts Complete (1-4)** — See the files above!
+- Part 5: Advanced sampling strategies (temperature, top-k, nucleus)
 
 ## License
 
