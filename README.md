@@ -421,8 +421,8 @@ n_heads = 2   # Instead of 4
 2. ✅ Read `PIPELINE.md` (understand architecture)
 3. ✅ Run `python demo.py` (understand tokenization)
 4. ✅ Run `python mha_examples.py` (understand attention)
-5. 📝 Read the source code (each file is well-commented)
-6. 🔧 Modify hyperparameters and see what happens
+5. 📝 Read the source code
+6. 🔧 Modify hyperparameters and its outcome
 7. 📚 Extend it: better sampling, larger model, more layers
 
 - Part 3: Combine tokenizer + MHA to build a full Transformer encoder
