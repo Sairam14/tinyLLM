@@ -3,7 +3,7 @@
 A complete stack for training, serving, and deploying a tiny transformer-based language model optimized for German text.
 
 **Two paths:**
-1. **Educational** — See how transformers work (bpe_tokenizer.py, multi_head_attention.py, main.py)
+1. **Educational** — Learn transformers step-by-step (Parts 1-4: tokenization, attention, architecture, training)
 2. **Production** — Deploy a complete system with training, serving, and edge inference (tinyllm/ package)
 
 ---
@@ -48,19 +48,43 @@ pytest tests/ -v
 
 ---
 
-##  Quick Start
+##  Quick Start — The Educational Path
 
-### First Time? Run This
+### See It All in 5 Minutes
 
 ```bash
-python main.py
+# Part 1: Tokenization
+python demo.py
+
+# Part 2: Multi-Head Attention
+python multi_head_attention.py
+
+# Part 3: Transformer Block
+python transformer_block.py
+
+# Part 4: Training on Real Text
+python train_transformer.py
 ```
 
-This will show you the complete pipeline in ~2 seconds:
-1. Train a German BPE tokenizer
-2. Create a tiny transformer model
-3. Process German text through the model
-4. Generate predictions
+Or run the complete pipeline all at once:
+```bash
+python main.py  # All parts connected, ~2 seconds
+```
+
+---
+
+## Run the Code — Part by Part
+
+| Part | File | What You'll See | Time |
+|------|------|-----------------|------|
+| **1: Tokenization** | `python demo.py` | BPE tokenizer in action | 30s |
+| **2: Attention** | `python multi_head_attention.py` | How attention works | 5s |
+| **3: Transformer Block** | `python transformer_block.py` | Building complete blocks | 30s |
+| **4: Training** | `python train_transformer.py` | Train on real German text | 5-10m |
+| **All Together** | `python main.py` | Complete pipeline | 2s |
+| **Bonus: Tokenizer Comparison** | `python scripts/comparision.py` | BPE vs Unigram vs morphology | 10s |
+
+---
 
 ## Overview
 
@@ -290,65 +314,150 @@ Training corpus sourced from [Project Gutenberg](https://www.gutenberg.org/) (pu
 
 No API keys, authentication, or paid resources required.
 
-## Learning Path
+## Learning Path (The Full 4-Part Journey)
 
-### Option 1: Complete System (Recommended)
+### 🚀 Quick Path (5 min)
 ```bash
-python main.py        # See everything connected
-cat PIPELINE.md       # The architecture
+python demo.py                    # Part 1: Tokenization basics
+python multi_head_attention.py    # Part 2: How attention works
+python transformer_block.py       # Part 3: Building a transformer
+python train_transformer.py       # Part 4: Training on real text
 ```
 
-### Option 2: Part by Part
+### 📖 Deep Dive (30 min)
 ```bash
-# Part 1: Tokenization
-python demo.py
-python train_tokenizer.py
+# Part 1: BPE Tokenization
+python demo.py                    # Quick overview
+python train_tokenizer.py         # Full training on real corpus
 
 # Part 2: Multi-Head Attention
-python multi_head_attention.py
-python mha_examples.py    # 6 detailed attention examples
+python multi_head_attention.py    # Core mechanism
+python mha_examples.py            # 6 detailed patterns
+
+# Part 3: Transformer Blocks
+python transformer_block.py       # Complete block assembly
+
+# Part 4: Training & Benchmarking
+python train_transformer.py       # Train on real German text
+python scripts/comparision.py     # Compare 3 tokenization approaches
 ```
 
-## Common Tasks
+### 🎯 Integrated View
+```bash
+python main.py                    # All parts connected
+cat PIPELINE.md                   # Architecture walkthrough
+```
 
-### "Tokenization"
-1. Run: `python demo.py`
-2. Read: `bpe_tokenizer.py` (top-to-bottom, has step-by-step comments)
-3. Read: `train_tokenizer.py` (shows full training on 5MB German corpus)
+## Understanding Each Part
 
-### "Attention"
-1. Run: `python multi_head_attention.py` (core mechanism)
-2. Run: `python mha_examples.py` (6 patterns: self, cross, causal, etc.)
-3. Read: `PIPELINE.md` (architecture section)
-4. Read: `multi_head_attention.py` (implementation, line-by-line comments)
+### Part 1: Tokenization (BPE)
+**Goal:** Convert text into discrete tokens that a model can process
 
-### "Complete system"
-1. Run: `python main.py` (see everything working)
-2. Read: `PIPELINE.md` (architecture & flow)
-3. Read: `main.py` (implementation with detailed comments)
+```bash
+python demo.py                # See BPE in action (30 seconds)
+python train_tokenizer.py     # Full training on real German corpus
+python scripts/comparision.py # Compare BPE vs Unigram vs morphology-aware
+```
 
-### "Modify the model"
-Key parameters in `main.py`:
+**Key files:**
+- `bpe_tokenizer.py` — Core implementation with detailed comments
+- `train_tokenizer.py` — Real-world corpus training
+- `scripts/comparision.py` — Algorithm comparison on 2M+ characters
+
+**To understand:**
+- How BPE merges frequent pairs iteratively
+- Why German compound words need special consideration
+- Fertility metric: tokens per word
+
+---
+
+### Part 2: Multi-Head Attention
+**Goal:** Let each token pay attention to relevant other tokens
+
+```bash
+python multi_head_attention.py  # Core mechanism (~100 lines)
+python mha_examples.py          # 6 detailed patterns
+cat MHA_GUIDE.md               # Conceptual walkthrough
+```
+
+**Key files:**
+- `multi_head_attention.py` — Implementation from scratch
+- `mha_examples.py` — Self-attention, cross-attention, causal, etc.
+- `MHA_GUIDE.md` — Q/K/V intuition, math, visualization
+
+**To understand:**
+- Scaled dot-product: QK^T / √d_k
+- Why multiple heads learn different patterns
+- Positional encoding: how transformers learn token order
+- Causal mask: preventing attention to future tokens
+
+---
+
+### Part 3: Transformer Block
+**Goal:** Stack attention + feed-forward networks with residuals
+
+```bash
+python transformer_block.py  # Assembly demonstration
+```
+
+**Key classes:**
+- `FeedForwardNetwork` — Position-wise MLP
+- `TransformerBlock` — Attention + FFN + residuals + Pre-LayerNorm
+- `SimpleTransformer` — Stacking multiple blocks
+
+**To understand:**
+- Pre-LayerNorm: normalize BEFORE sublayer (modern, stable)
+- Residual connections: skip-paths for gradient flow
+- Why deep networks need both
+
+---
+
+### Part 4: Training on Real Text + Benchmarking
+**Goal:** Demonstrate full pipeline on real German literature
+
+```bash
+python train_transformer.py     # Train SimpleTransformer on Kafka/Goethe/Schiller
+python scripts/comparision.py   # Tokenizer comparison: BPE vs Unigram vs morphology
+```
+
+**What happens:**
+1. Downloads real German public domain texts
+2. Trains BPE tokenizer (Part 1)
+3. Tokenizes corpus and creates data loader
+4. Trains SimpleTransformer (Part 3) for 3 epochs
+5. Reports loss curve and final perplexity
+6. Runs tokenizer benchmarks
+7. Shows how tokenization quality affects convergence
+
+**Key insight:** Better tokenization → more efficient model → faster training
+
+---
+
+## Customization
+
+### Modify the Model
+
+Key parameters to experiment with:
 
 ```python
-# Tokenizer
-vocab_size = 256
+# In main.py, transformer_block.py, or train_transformer.py:
 
-# Model architecture
-d_model = 128      # Try: 64, 256, 512
-n_heads = 4        # Try: 2, 8, 16
-n_layers = 2       # Try: 1, 3, 6
-max_seq_len = 256  # Try: 128, 512
+# Tokenizer
+vocab_size = 256          # Larger → more tokens but lower fertility
+
+# Embedding
+d_model = 64              # Model width: 32, 64, 128, 256
+n_heads = 4               # Attention heads: 2, 4, 8, 16
+n_blocks = 2              # Depth: 1, 2, 4, 8
+max_seq_len = 256         # Context length: 128, 256, 512
+
+# Training
+learning_rate = 1e-3      # Try: 1e-2, 1e-3, 1e-4
+num_epochs = 3            # Try: 1, 3, 10
+batch_size = 16           # Try: 8, 16, 32
 ```
 
-Larger values = slower but more powerful.
-
-### "Train on real data"
-See `train_tokenizer.py`:
-- Downloads ~5MB of German public domain text from Project Gutenberg
-- Trains BPE tokenizer
-- Measures efficiency (fertility) on compound words
-- Benchmarks different vocab sizes
+**Rule of thumb:** Larger = more power but slower training. Start small.
 
 ## Key Concepts
 
@@ -440,18 +549,33 @@ d_model = 64  # Instead of 128
 n_heads = 2   # Instead of 4
 ```
 
-## Next Steps
+## Complete Learning Checklist
 
-1. ✅ Run `python main.py` (see it work)
-2. ✅ Read `PIPELINE.md` (understand architecture)
-3. ✅ Run `python demo.py` (understand tokenization)
-4. ✅ Run `python mha_examples.py` (understand attention)
-5. 📝 Read the source code
-6. 🔧 Modify hyperparameters and its outcome
-7. 📚 Extend it: better sampling, larger model, more layers
+### The Educational Path ✅ (All Parts Complete)
 
-✅ **All Parts Complete (1-4)** — See the files above!
-- Part 5: Advanced sampling strategies (temperature, top-k, nucleus)
+- [x] **Part 1** — `bpe_tokenizer.py` — Tokenization with BPE
+- [x] **Part 2** — `multi_head_attention.py` — Multi-head attention mechanism
+- [x] **Part 3** — `transformer_block.py` — Complete transformer block assembly
+- [x] **Part 4** — `train_transformer.py` — Train on real German corpus + benchmark tokenizers
+
+### Suggested Learning Order
+
+1. **5 min intro:** Run `python demo.py` → `python multi_head_attention.py` → `python transformer_block.py`
+
+2. **5 min training:** Run `python train_transformer.py` (trains on Kafka/Goethe/Schiller)
+
+3. **Deep dive:** Read source files in order:
+   - `bpe_tokenizer.py` (understand BPE)
+   - `multi_head_attention.py` (understand attention)
+   - `transformer_block.py` (understand stacking)
+   - `train_transformer.py` (understand full pipeline)
+
+4. **Experiment:** Modify hyperparameters and observe effects
+
+5. **Advanced:** 
+   - Try `python scripts/comparision.py` (BPE vs Unigram)
+   - Explore production code in `tinyllm/` package
+   - Add sampling strategies (temperature, top-k, nucleus)
 
 ## License
 
