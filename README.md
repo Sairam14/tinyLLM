@@ -48,7 +48,7 @@ pytest tests/ -v
 
 ---
 
-## 🎓 Educational Quick Start
+##  Quick Start
 
 ### First Time? Run This
 
@@ -78,7 +78,7 @@ This is particularly relevant for LLM training: German models need ~2× the voca
 
 ## Files
 
-### 🎯 Entry Points
+### Entry Points
 
 - **`main.py`** — **START HERE** — Complete pipeline (Part 1 + Part 2)
   - Tokenize German text with BPE
@@ -238,7 +238,7 @@ Token fertility = (number of tokens) / (number of words)
 | 16,000 | 1.068 | 2.1s |
 | 32,000 | 1.065 | 3.2s |
 
-### Tokenizer Algorithm Comparison (Part 4)
+### Tokenizer Algorithm Comparison
 
 **Tested on:** 889,643 characters from German classics (Kafka, Goethe, Schiller)
 
@@ -270,7 +270,7 @@ No API keys, authentication, or paid resources required.
 ### Option 1: Complete System (Recommended)
 ```bash
 python main.py        # See everything connected
-cat PIPELINE.md       # Understand the architecture
+cat PIPELINE.md       # The architecture
 ```
 
 ### Option 2: Part by Part
@@ -286,23 +286,23 @@ python mha_examples.py    # 6 detailed attention examples
 
 ## Common Tasks
 
-### "I want to understand tokenization"
+### "Tokenization"
 1. Run: `python demo.py`
 2. Read: `bpe_tokenizer.py` (top-to-bottom, has step-by-step comments)
 3. Read: `train_tokenizer.py` (shows full training on 5MB German corpus)
 
-### "I want to understand attention"
+### "Attention"
 1. Run: `python multi_head_attention.py` (core mechanism)
 2. Run: `python mha_examples.py` (6 patterns: self, cross, causal, etc.)
 3. Read: `PIPELINE.md` (architecture section)
 4. Read: `multi_head_attention.py` (implementation, line-by-line comments)
 
-### "I want to understand the complete system"
+### "Complete system"
 1. Run: `python main.py` (see everything working)
 2. Read: `PIPELINE.md` (architecture & flow)
 3. Read: `main.py` (implementation with detailed comments)
 
-### "I want to modify the model"
+### "Modify the model"
 Key parameters in `main.py`:
 
 ```python
@@ -318,14 +318,14 @@ max_seq_len = 256  # Try: 128, 512
 
 Larger values = slower but more powerful.
 
-### "I want to train on real data"
+### "Train on real data"
 See `train_tokenizer.py`:
 - Downloads ~5MB of German public domain text from Project Gutenberg
 - Trains BPE tokenizer
 - Measures efficiency (fertility) on compound words
 - Benchmarks different vocab sizes
 
-## Key Concepts (30 second versions)
+## Key Concepts
 
 ### Byte-Pair Encoding (BPE)
 Start with characters. Repeatedly merge the most frequent adjacent pair. Result: efficient tokens.
@@ -428,10 +428,6 @@ n_heads = 2   # Instead of 4
 - Part 3: Combine tokenizer + MHA to build a full Transformer encoder
 - Part 4: Train on next-token prediction for German text generation
 - Part 5: Add GPT-style decoding and sampling strategies
-
-## Implementation Status
-
-For development and local progress tracking, see `IMPLEMENTATION_STATUS.md` (local only, not tracked in version control).
 
 ## License
 
