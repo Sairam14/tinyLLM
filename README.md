@@ -411,6 +411,10 @@ n_heads = 2   # Instead of 4
 - Part 4: Train on next-token prediction for German text generation
 - Part 5: Add GPT-style decoding and sampling strategies
 
+## Implementation Status
+
+For development and local progress tracking, see `IMPLEMENTATION_STATUS.md` (local only, not tracked in version control).
+
 ## License
 
 MIT — Educational and research use
