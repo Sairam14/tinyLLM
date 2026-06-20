@@ -152,16 +152,11 @@ class MultiHeadAttention(nn.Module):
 if __name__ == "__main__":
     # Hyperparameters -- deliberately small, matching Part 1's
     # 213-token vocabulary so every shape can be inspected by hand.
-    # (A production-size demo with d_model=512, n_heads=8 is shown
-    # commented out below for comparison.)
     vocab_size = 213   # from Part 1: 169 merges + base chars = 213 tokens
     d_model = 8        # embedding dimension -- small enough to print
     n_heads = 2        # d_k = 8 // 2 = 4 per head
-    seq_len = 10        # sequence length
-    batch_size = 2      # batch size
-
-    # d_model = 512     # production-scale alternative
-    # n_heads = 8        # d_k = 512 // 8 = 64 per head
+    seq_len = 10       # sequence length
+    batch_size = 2     # batch size
 
     # Create components
     positional_encoding = PositionalEncoding(d_model, max_seq_len=512)
