@@ -4,9 +4,9 @@
 
 ---
 
-When you read about transformer models—GPT, LLaMA, Claude—the architecture sounds intimidating: multi-head attention, residual connections, feed-forward networks, Pre-LayerNorm.
+Reading transformer models—GPT, LLaMA, Claude—the architecture sounds intimidating: multi-head attention, residual connections, feed-forward networks, Pre-LayerNorm.
 
-Complete transformer LLM and trained it on real German literature (Kafka, Goethe, Schiller). The choice of tokenization algorithm matters far less but the insights from that comparison unlock something important about why large language models are structured the way they are.
+Complete transformer LLM and trained for real German literature (Kafka, Goethe, Schiller) enchanes the knowledge. The choice of tokenization algorithm matters far less while the insights from that comparison unlock something important about why large language models are structured the way they are.
 
 ---
 
