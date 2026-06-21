@@ -54,7 +54,7 @@ pytest tests/ -v
 
 ```bash
 # Part 1: Tokenization
-python demo.py
+python bpe_tokenizer.py
 
 # Part 2: Multi-Head Attention
 python multi_head_attention.py
