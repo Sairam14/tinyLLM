@@ -51,7 +51,7 @@ This is why Transformers are so powerful—they're not computing one fixed patte
 
 ---
 
-## Part 3: The Transformer Block—Assembling the Machine
+## The Transformer Block—Assembling the Machine
 
 With multi-head attention, the model needs more than just attention.
 
@@ -102,7 +102,7 @@ That's the entire thing. Not some mysterious black box—just attention, feedfor
 
 ---
 
-## Part 4: Training on Real Text—Where Theory Meets Reality
+## Training on Real Text—Where Theory Meets Reality
 
 Here's where it gets interesting.transformer built is trained on 2 million characters of real German literature from Project Gutenberg: Kafka's *Der Proceß*, Goethe's *Faust*, Schiller's *Die Räuber*.
 
