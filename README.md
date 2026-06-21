@@ -327,7 +327,7 @@ python train_transformer.py       # Part 4: Training on real text
 ### 📖 Deep Dive (30 min)
 ```bash
 # Part 1: BPE Tokenization
-python demo.py                    # Quick overview
+python bpe_tokenizer.py            # Quick overview
 python train_tokenizer.py         # Full training on real corpus
 
 # Part 2: Multi-Head Attention
