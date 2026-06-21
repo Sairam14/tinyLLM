@@ -1,26 +1,20 @@
-# Building a Production Transformer from Scratch: From Attention to Real Training
+# Building a Transformer: From Attention to Real Training
 
-## How I Built a Complete Language Model in ~800 Lines of Python (And What I Learned About German Tokenization)
-
----
-
-When you read about transformer models—GPT, LLaMA, Claude—the architecture sounds intimidating: multi-head attention, residual connections, feed-forward networks, Pre-LayerNorm. But I've realized something: **the fundamentals are simpler than the terminology suggests.**
-
-Over the past month, I've built a complete transformer LLM from scratch and trained it on real German literature (Kafka, Goethe, Schiller). I want to walk you through the journey—from understanding how attention works, to assembling a full transformer block, to watching the model actually learn on real text.
-
-And I discovered something unexpected: the choice of tokenization algorithm matters far less than I thought, but the insights from that comparison unlock something important about why large language models are structured the way they are.
+## Complete Language Model (German Tokenization)
 
 ---
 
-## Part 2: Multi-Head Attention—The Heart of It All
+When you read about transformer models—GPT, LLaMA, Claude—the architecture sounds intimidating: multi-head attention, residual connections, feed-forward networks, Pre-LayerNorm.
 
-If you want to understand modern AI, you need to understand attention. Not the simplified "query-key-value" explanation, but the *actual mechanism* that makes it work.
+Complete transformer LLM and trained it on real German literature (Kafka, Goethe, Schiller). The choice of tokenization algorithm matters far less but the insights from that comparison unlock something important about why large language models are structured the way they are.
 
-Here's the core idea:
+---
+
+## Multi-Head Attention—The Heart of It All
 
 **Attention lets each token learn which other tokens are relevant to it.**
 
-When I'm processing the sentence "The bank executive was arrested," the word "bank" needs to figure out: am I talking about a river bank or a financial institution? I can only answer that by attending to the word "executive." That's attention.
+When processing the sentence "The bank executive was arrested," the word "bank" needs to figure out: whether its a river bank or a financial institution which can be only answered by attending to the word "executive." That's attention.
 
 Mathematically:
 
@@ -36,8 +30,6 @@ This looks like magic notation, but here's what it actually does:
 4. **V (Values):** "Here's my actual information"
 
 The `/ √d_k` is a scaling factor that prevents the dot products from exploding into numerical instability. That's it. The entire attention mechanism is linear algebra.
-
-I implemented this in under 40 lines of Python:
 
 ```python
 class ScaledDotProductAttention(nn.Module):
@@ -61,9 +53,9 @@ This is why Transformers are so powerful—they're not computing one fixed patte
 
 ## Part 3: The Transformer Block—Assembling the Machine
 
-Okay, so we have multi-head attention. But a model needs more than just attention.
+With multi-head attention, the model needs more than just attention.
 
-If you stack only attention layers, your model becomes very wide but shallow in understanding. You need to add **non-linearity**—something to let the model learn complex patterns.
+If only attention layers is stacked, the model becomes very wide. **non-linearity** is added to let the model learn complex patterns.
 
 Enter the **Feed-Forward Network (FFN):**
 
@@ -112,13 +104,13 @@ That's the entire thing. Not some mysterious black box—just attention, feedfor
 
 ## Part 4: Training on Real Text—Where Theory Meets Reality
 
-Here's where it gets interesting. I took the transformer I built and trained it on 2 million characters of real German literature from Project Gutenberg: Kafka's *Der Proceß*, Goethe's *Faust*, Schiller's *Die Räuber*.
+Here's where it gets interesting.transformer built is trained on 2 million characters of real German literature from Project Gutenberg: Kafka's *Der Proceß*, Goethe's *Faust*, Schiller's *Die Räuber*.
 
 ### The Setup
 
-**Tokenization:** First, I tokenized the corpus using BPE (Byte-Pair Encoding).
+**Tokenization:** First, Tokenized the corpus using BPE (Byte-Pair Encoding).
 
-BPE is simple: start with characters, then repeatedly merge the most frequent adjacent pair. After ~200 merges, you have a vocabulary of 256 tokens. This is not a coincidence—256 is the number of bytes in a byte pair, so it's a natural stopping point.
+BPE is simple: start with characters, then repeatedly merge the most frequent adjacent pair. After ~200 merges, vocabulary of 256 tokens exists. This is not a coincidence—256 is the number of bytes in a byte pair, so it's a natural stopping point.
 
 ```
 "Donaudampfschifffahrtsgesellschaftskapitän"
@@ -152,11 +144,11 @@ Here's what the loss curve looked like:
 
 **Final Perplexity: 13.5**
 
-What does this mean? The model is 13.5× more uncertain than if it had a perfect prior. That's actually impressive for a 100K-parameter model trained on 64K tokens. For comparison, a random baseline would have perplexity = vocab_size = 256.
+The model is 13.5× more uncertain than if it had a perfect prior. That's actually impressive for a 100K-parameter model trained on 64K tokens. For comparison, a random baseline would have perplexity = vocab_size = 256.
 
 ### The Unexpected Discovery: Tokenization Comparison
 
-This is where I learned something important. I benchmarked three tokenization approaches on the same corpus:
+benchmarked three tokenization approaches on the same corpus:
 
 | Algorithm | Tokens | Fertility | Time |
 |-----------|--------|-----------|------|
@@ -164,13 +156,9 @@ This is where I learned something important. I benchmarked three tokenization ap
 | **Unigram (SentencePiece)** | 938,456 | 3.867 | 0.9s ⚡ |
 | **Morphology-aware + BPE** | 938,456 | 3.867 | 151.9s |
 
-**The insight:** I expected Unigram (a probabilistic algorithm) to beat BPE (greedy merging). And morphology-aware pre-segmentation should surely help, given German's compound words, right?
+**The insight:** Expected Unigram (a probabilistic algorithm) to beat BPE (greedy merging). And morphology-aware pre-segmentation should surely help, given German's compound words. But actually BPE won. It produced 5% fewer tokens than the alternatives, despite being "just" a greedy algorithm. Why?
 
-Wrong.
-
-BPE won. It produced 5% fewer tokens than the alternatives, despite being "just" a greedy algorithm. Why?
-
-**Because greedy frequency matching is a better heuristic than I thought for natural language.** The algorithm doesn't need to be fancy if it's optimizing for the right objective: minimizing token count.
+**Because greedy frequency matching is a better heuristic than its thought for natural language.** The algorithm doesn't need to be fancy if it's optimizing for the right objective: minimizing token count.
 
 Morphology-aware pre-segmentation didn't help because BPE already discovers linguistic boundaries through frequency. When you pre-segment at morpheme boundaries, you're just doing BPE's job for it—and you're removing flexibility that BPE uses to find even better splits.
 
@@ -191,14 +179,14 @@ The 5% token efficiency difference between BPE and alternatives might not sound 
 
 ## Building This Yourself
 
-If you want to follow along, I've open-sourced the complete educational code:
+Open-sourced the complete educational code:
 
 **Part 1:** [bpe_tokenizer.py](https://github.com/Sairam14/tinyLLM) — Tokenization from scratch
 **Part 2:** [multi_head_attention.py](https://github.com/Sairam14/tinyLLM) — Attention mechanism
 **Part 3:** [transformer_block.py](https://github.com/Sairam14/tinyLLM) — Complete block assembly
 **Part 4:** [train_transformer.py](https://github.com/Sairam14/tinyLLM) — Training on real German text
 
-Each file is under 300 lines and includes working demos. You can run any of them in seconds.
+Each file is under 300 lines and includes working demos.Below commands can be used.
 
 ```bash
 # See it all work
@@ -226,18 +214,8 @@ python train_transformer.py       # Training
 
 ## What's Next?
 
-I'm currently working on:
+Currently working on:
 - Extending this to multi-GPU training with gradient checkpointing
 - Comparing token efficiency across language pairs (English, German, Chinese)
 - Implementing KV-cache for efficient inference
 - Building an OpenAI-compatible API around the model
-
-If you're interested in LLM internals, production ML, or building models from first principles, I'd love to hear what you'd want to explore next.
-
-**Questions? Ideas? Let me know in the comments.**
-
----
-
-*This article is part of a larger educational series on building language models. Code, data, and detailed walkthroughs are available at [github.com/Sairam14/tinyLLM](https://github.com/Sairam14/tinyLLM).*
-
-*Update: This article received great feedback. I've added a Part 5 covering sampling strategies (temperature, top-k, nucleus) and a Production section showing how to scale this to multi-GPU training with DDP.*
